@@ -26,5 +26,12 @@
 }
 
 .personagem-selecionado .personagem-grande{
-    
+    width: 350px;
+    height: 350px;
+}
+
+.personagem-selecionado .descricao-personagem{
+    width: 80%;
+    font-size: 16px;
+    margin: 20px auto;
 }
