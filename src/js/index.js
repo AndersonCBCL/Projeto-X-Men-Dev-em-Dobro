@@ -24,39 +24,50 @@ passo 1 - pegar os personagens no JS pra poder verificar quando o usuário passa
 const personagens = document.querySelectorAll('.personagem');
 
 
-
-//passo 2 - adicionar a classe selecionado no personagem que o usuário passar o cursor do mouse
-
-//Errado:
-// addEventListener só funciona para elementos unitários e não para uma lista.
-// personagens.addEventListener('click' , () => {console.log('clicou');})
-
-//Certo:
-personagens.forEach(personagem => {
+// passo 2 - adicionar a classe selecionado no personagem que o usuário passar o cursor do mouse
+personagens.forEach((personagem) => {
     personagem.addEventListener('mouseenter', () => {
-        
 
-        //passo 3 - verificar se já existe um personagem selecionado, se sim, devemos remover a seleção dele
-        const personagemSelecionado = document.querySelector('.selecionado');
-        personagemSelecionado.classList.remove('selecionado');
+        if(window.innerWidth < 450) {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
 
-    
+        // passo 3 - verificar se já existe um personagem selecionado, se sim, devemos remover a seleção dele
+        removerSelecaoDoPersonagem();
+
         personagem.classList.add('selecionado');
 
         // OBJETIVO 2 - quando passar o mouse em cima do personagem na listagem, trocar a imagem, o nome e a descrição do personagem grande
-        // passo 1 - pegar o elemento do personagem grande pra adicionar as informações nele
-        const imagemPersonagemGrande = document.querySelector('.personagem-grande');
+        
+        //passo 1 - pegar o elemento do personagem grande pra adicionar as informações nele
+        alterarImagemPersonagemSelecionado(personagem);
 
-        //passo 2 - alterar a imagem do personagem grande
-        const idPersonagem = personagem.attributes.id.value;
-        imagemPersonagemGrande.src = `./src/imagens/card-${idPersonagem}.png`;
+        // passo 3 - alterar o nome do personagem grande
+        alterarNomePersonagemSelecionado(personagem);
 
-
-        //passo 3 - alterar o nome do personagem grande
-        const nomePersonagem = document.getElementById('nome-personagem');
-        nomePersonagem.innerText = personagem
+        // passo 4 - alterar a descrição do personagem grande
+        alterarDescricaoPersonagem(personagem);
     })
 })
 
+function alterarDescricaoPersonagem(personagem) {
+    const descricaoPersonagem = document.getElementById('descricao-personagem');
+    descricaoPersonagem.innerText = personagem.getAttribute('data-description');
+}
 
+function alterarNomePersonagemSelecionado(personagem) {
+    const nomePersonagem = document.getElementById('nome-personagem');
+    nomePersonagem.innerText = personagem.getAttribute('data-name');
+}
 
+function alterarImagemPersonagemSelecionado(personagem) {
+    const imagemPersonagemGrande = document.querySelector('.personagem-grande');
+    // passo 2 - alterar a imagem do personagem grande
+    const idPersonagem = personagem.attributes.id.value;
+    imagemPersonagemGrande.src = `./src/imagens/card-${idPersonagem}.png`;
+}
+
+function removerSelecaoDoPersonagem() {
+    const personagemSelecionado = document.querySelector('.selecionado');
+    personagemSelecionado.classList.remove('selecionado');
+}
